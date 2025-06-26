@@ -1,0 +1,89 @@
+<!-- ===== lab_simulations/templates/lab_simulations/quiz_results.html ===== -->
+{% extends 'lab_simulations/base.html' %}
+
+{% block title %}Quiz Results - {{ simulation.title }}{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Quiz Results: {{ simulation.title }}</h2>
+                <div>
+                    <span class="badge bg-{% if score >= 70 %}success{% elif score >= 50 %}warning{% else %}danger{% endif %} fs-5">
+                        Score: {{ score }}%
+                    </span>
+                </div>
+            </div>
+
+            <!-- Score Summary -->
+            <div class="alert alert-{% if score >= 70 %}success{% elif score >= 50 %}warning{% else %}danger{% endif %}" role="alert">
+                <h4 class="alert-heading">
+                    {% if score >= 70 %}
+                        Excellent Work! 🎉
+                    {% elif score >= 50 %}
+                        Good Effort! 👍
+                    {% else %}
+                        Keep Practicing! 📚
+                    {% endif %}
+                </h4>
+                <p>You scored {{ score }}% on this lab simulation quiz.</p>
+            </div>
+
+            <!-- Network Topology Reference -->
+            {% if simulation.image %}
+                <div class="section-header">
+                    <h4>Network Topology Reference</h4>
+                </div>
+                <div class="text-center mb-4">
+                    <img src="{{ simulation.image.url }}" alt="Network Topology" class="network-topology-img" style="max-height: 300px;">
+                </div>
+            {% endif %}
+
+            <!-- Answer Comparison -->
+            <div class="section-header">
+                <h4>Answer Comparison</h4>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="answer-comparison correct-answer">
+                        <h5>Correct Lab Answers</h5>
+                        <div>{{ simulation.lab_answers|linebreaks }}</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="answer-comparison user-answer">
+                        <h5>Your Answers</h5>
+                        <div>{{ simulation.user_answers|linebreaks }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-4">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="{% url 'simulation_detail' simulation.pk %}" class="btn btn-primary me-md-2">Retake Quiz</a>
+                    <a href="{% url 'simulation_list' %}" class="btn btn-secondary me-md-2">Back to List</a>
+                    <a href="{% url 'simulation_update' simulation.pk %}" class="btn btn-warning">Edit Simulation</a>
+                </div>
+            </div>
+
+            <!-- Study Tips -->
+            {% if score < 70 %}
+                <div class="mt-4">
+                    <div class="alert alert-info" role="alert">
+                        <h5>Study Tips:</h5>
+                        <ul>
+                            <li>Review the network topology diagram carefully</li>
+                            <li>Compare your answers with the correct lab answers above</li>
+                            <li>Practice with similar network configurations</li>
+                            <li>Focus on understanding the relationships between network components</li>
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

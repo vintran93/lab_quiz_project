@@ -1,0 +1,65 @@
+<!-- ===== lab_simulations/templates/lab_simulations/simulation_list.html ===== -->
+{% extends 'lab_simulations/base.html' %}
+
+{% block title %}All Lab Simulations{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Lab Simulation Quizzes</h2>
+            <a href="{% url 'simulation_create' %}" class="btn btn-primary">Create New Simulation</a>
+        </div>
+
+        {% if simulations %}
+            <div class="row">
+                {% for simulation in simulations %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            {% if simulation.image %}
+                                <img src="{{ simulation.image.url }}" class="card-img-top" alt="Network Topology" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ simulation.title }}</h5>
+                                <p class="card-text">{{ simulation.task|truncatewords:20 }}</p>
+                                <small class="text-muted">Created: {{ simulation.created_at|date:"M d, Y" }}</small>
+                            </div>
+                            <div class="card-footer">
+                                <div class="btn-group w-100" role="group">
+                                    <a href="{% url 'simulation_detail' simulation.pk %}" class="btn btn-success btn-sm">Take Quiz</a>
+                                    <a href="{% url 'simulation_update' simulation.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{% url 'simulation_delete' simulation.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if is_paginated %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        
+                        <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+                        
+                        {% if page_obj.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-5">
+                <h4>No lab simulations found</h4>
+                <p>Create your first lab simulation to get started!</p>
+                <a href="{% url 'simulation_create' %}" class="btn btn-primary">Create First Simulation</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,320 @@
+/* # ===== static/css/style.css ===== */
+/* Custom styles for Lab Simulation Quiz - Dark Theme with Green Font */
+body {
+    background-color: #1a1a1a;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+}
+
+/* Override Bootstrap's default text colors */
+h1, h2, h3, h4, h5, h6, p, span, div, label, small {
+    color: #00ff00 !important;
+}
+
+.network-topology-img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.network-topology-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
+}
+
+.quiz-container {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    color: #00ff00;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
+    border: 1px solid #00ff00;
+}
+
+.section-header {
+    background: rgba(0, 255, 0, 0.1);
+    color: #00ff00;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid #00ff00;
+}
+
+.section-header h4 {
+    margin: 0;
+    font-weight: 600;
+    color: #00ff00 !important;
+}
+
+.answer-comparison {
+    background: #2a2a2a;
+    border: 1px solid #00ff00;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+}
+
+.correct-answer {
+    background: linear-gradient(135deg, #1a4d1a, #0d3d0d);
+    border-left: 5px solid #00ff00;
+}
+
+.user-answer {
+    background: linear-gradient(135deg, #4d1a1a, #3d0d0d);
+    border-left: 5px solid #ff6b6b;
+}
+
+.card {
+    border: 1px solid #00ff00;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 255, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #2a2a2a;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 255, 0, 0.4);
+}
+
+.card-body, .card-header, .card-footer {
+    background-color: #2a2a2a;
+    color: #00ff00;
+}
+
+.card-title, .card-text {
+    color: #00ff00 !important;
+}
+
+.btn {
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background-color: #00ff00;
+    color: #1a1a1a !important;
+    border: 1px solid #00ff00;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+    background-color: #00cc00;
+    color: #1a1a1a !important;
+}
+
+.btn-secondary {
+    background-color: #666;
+    border-color: #666;
+    color: #00ff00 !important;
+}
+
+.btn-secondary:hover {
+    background-color: #555;
+    border-color: #555;
+    color: #00ff00 !important;
+}
+
+.btn-danger {
+    background-color: #ff4444;
+    border-color: #ff4444;
+    color: #fff !important;
+}
+
+.btn-danger:hover {
+    background-color: #ff3333;
+    border-color: #ff3333;
+    color: #fff !important;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #00ff00 !important;
+}
+
+.alert {
+    border-radius: 15px;
+    border: 1px solid #00ff00;
+    background-color: #2a2a2a;
+    color: #00ff00;
+}
+
+.alert-success {
+    background-color: #1a4d1a;
+    border-color: #00ff00;
+    color: #00ff00 !important;
+}
+
+.alert-warning {
+    background-color: #4d4d1a;
+    border-color: #ffff00;
+    color: #ffff00 !important;
+}
+
+.alert-danger {
+    background-color: #4d1a1a;
+    border-color: #ff4444;
+    color: #ff4444 !important;
+}
+
+.alert-info {
+    background-color: #1a3d4d;
+    border-color: #00ccff;
+    color: #00ccff !important;
+}
+
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 2px solid #00ff00;
+    padding: 12px 15px;
+    transition: border-color 0.3s ease;
+    background-color: #2a2a2a;
+    color: #00ff00;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #00cc00;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 0, 0.25);
+    background-color: #2a2a2a;
+    color: #00ff00;
+}
+
+.form-control::placeholder {
+    color: #666 !important;
+}
+
+.form-label {
+    color: #00ff00 !important;
+    font-weight: 600;
+}
+
+.form-text {
+    color: #00cc00 !important;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #1a1a1a !important;
+    border-bottom: 2px solid #00ff00;
+}
+
+.navbar-nav .nav-link {
+    color: #00ff00 !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #00cc00 !important;
+}
+
+/* Table styling */
+.table {
+    background-color: #2a2a2a;
+    color: #00ff00;
+}
+
+.table td, .table th {
+    border-color: #00ff00;
+    color: #00ff00 !important;
+}
+
+/* Badge styling */
+.badge {
+    background-color: #00ff00 !important;
+    color: #1a1a1a !important;
+}
+
+.bg-success {
+    background-color: #00ff00 !important;
+}
+
+.bg-warning {
+    background-color: #ffff00 !important;
+    color: #1a1a1a !important;
+}
+
+.bg-danger {
+    background-color: #ff4444 !important;
+}
+
+/* Modal styling */
+.modal-content {
+    background-color: #2a2a2a;
+    border: 1px solid #00ff00;
+}
+
+.modal-header {
+    border-bottom: 1px solid #00ff00;
+}
+
+.modal-footer {
+    border-top: 1px solid #00ff00;
+}
+
+.modal-title {
+    color: #00ff00 !important;
+}
+
+/* Pagination styling */
+.pagination .page-link {
+    background-color: #2a2a2a;
+    border-color: #00ff00;
+    color: #00ff00;
+}
+
+.pagination .page-link:hover {
+    background-color: #00ff00;
+    border-color: #00ff00;
+    color: #1a1a1a;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #00ff00;
+    border-color: #00ff00;
+    color: #1a1a1a;
+}
+
+/* Text colors for various elements */
+.text-muted {
+    color: #666 !important;
+}
+
+.text-danger {
+    color: #ff4444 !important;
+}
+
+.text-success {
+    color: #00ff00 !important;
+}
+
+.text-warning {
+    color: #ffff00 !important;
+}
+
+.text-info {
+    color: #00ccff !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .quiz-container {
+        padding: 20px;
+        margin: 10px 0;
+    }
+    
+    .section-header {
+        padding: 10px 15px;
+    }
+    
+    .network-topology-img {
+        max-height: 300px;
+        object-fit: contain;
+    }
+}

@@ -1,0 +1,67 @@
+<!-- ===== lab_simulations/templates/lab_simulations/simulation_detail.html ===== -->
+{% extends 'lab_simulations/base.html' %}
+
+{% block title %}{{ simulation.title }}{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>{{ simulation.title }}</h2>
+                <div>
+                    <a href="{% url 'simulation_update' simulation.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'simulation_list' %}" class="btn btn-secondary btn-sm">Back to List</a>
+                </div>
+            </div>
+
+            <!-- Network Topology Image -->
+            {% if simulation.image %}
+                <div class="section-header">
+                    <h4>Network Topology</h4>
+                </div>
+                <div class="text-center mb-4">
+                    <img src="{{ simulation.image.url }}" alt="Network Topology" class="network-topology-img">
+                </div>
+            {% endif %}
+
+            <!-- Task Section -->
+            <div class="section-header">
+                <h4>Task</h4>
+            </div>
+            <div class="bg-white p-3 rounded mb-4">
+                <p>{{ simulation.task|linebreaks }}</p>
+            </div>
+
+            <!-- Questions Section -->
+            <div class="section-header">
+                <h4>Questions</h4>
+            </div>
+            <div class="bg-white p-3 rounded mb-4">
+                <p>{{ simulation.questions|linebreaks }}</p>
+            </div>
+
+            <!-- User Answer Input -->
+            <div class="section-header">
+                <h4>Your Answers</h4>
+            </div>
+            <form method="post" action="{% url 'submit_quiz' simulation.pk %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ quiz_form.user_answers }}
+                    <div class="form-text">Enter your answers in paragraph format. Be as detailed as possible.</div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit Quiz</button>
+                </div>
+            </form>
+
+            {% if simulation.user_answers %}
+                <div class="mt-4">
+                    <a href="{% url 'quiz_results' simulation.pk %}" class="btn btn-info">View Results</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
