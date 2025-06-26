@@ -1,4 +1,4 @@
-<!-- ===== lab_simulations/templates/lab_simulations/simulation_detail.html ===== -->
+<!-- simulation_detail.html with consistent dark theme -->
 {% extends 'lab_simulations/base.html' %}
 
 {% block title %}{{ simulation.title }}{% endblock %}
@@ -29,7 +29,7 @@
             <div class="section-header">
                 <h4>Task</h4>
             </div>
-            <div class="bg-white p-3 rounded mb-4">
+            <div class="content-section mb-4">
                 <p>{{ simulation.task|linebreaks }}</p>
             </div>
 
@@ -37,7 +37,7 @@
             <div class="section-header">
                 <h4>Questions</h4>
             </div>
-            <div class="bg-white p-3 rounded mb-4">
+            <div class="content-section mb-4">
                 <p>{{ simulation.questions|linebreaks }}</p>
             </div>
 
@@ -45,7 +45,7 @@
             <div class="section-header">
                 <h4>Your Answers</h4>
             </div>
-            <form method="post" action="{% url 'submit_quiz' simulation.pk %}">
+            <form method="post" action="{% url 'submit_quiz' simulation.pk %}" class="quiz-form">
                 {% csrf_token %}
                 <div class="mb-3">
                     {{ quiz_form.user_answers }}
@@ -64,4 +64,80 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Dark theme styles for simulation detail page */
+.quiz-container h2 {
+    color: white;
+}
+
+/* Replace white background content sections with dark theme */
+.content-section {
+    background-color: #444 !important;
+    border: 1px solid #666 !important;
+    color: white !important;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Form styling for dark theme consistency */
+.quiz-form .form-control,
+.quiz-form textarea {
+    background-color: #2a2a2a !important;
+    border: 1px solid #666 !important;
+    color: white !important;
+    border-radius: 5px;
+    padding: 12px 15px;
+}
+
+.quiz-form .form-control:focus,
+.quiz-form textarea:focus {
+    background-color: #2a2a2a !important;
+    border-color: #007bff !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+.quiz-form .form-control::placeholder,
+.quiz-form textarea::placeholder {
+    color: #aaa !important;
+    opacity: 1;
+}
+
+/* Form text styling */
+.quiz-form .form-text {
+    color: #aaa !important;
+}
+
+/* Button spacing and styling */
+.btn {
+    margin-right: 5px;
+}
+
+.btn:last-child {
+    margin-right: 0;
+}
+
+/* Ensure all text in content sections is white */
+.content-section p {
+    color: white !important;
+    margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .d-flex.justify-content-between > div {
+        margin-top: 10px;
+    }
+    
+    .quiz-form textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+</style>
 {% endblock %}

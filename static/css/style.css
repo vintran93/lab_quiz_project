@@ -1,18 +1,22 @@
-/* Enhanced Dark Theme CSS - Lab Simulation Quiz */
+/* ===== GLOBAL DARK THEME CSS - Lab Simulation Quiz Application ===== */
+/* This CSS will make the ENTIRE application dark themed while preserving all functionality */
 
-/* Force dark background on all elements */
+/* ===== GLOBAL BASE STYLES ===== */
+html {
+    background-color: #1a1a1a !important;
+    min-height: 100% !important;
+}
+
 html, body {
     background-color: #1a1a1a !important;
-    color: #00ff00 !important;
+    color: #007BFF !important;
     font-family: 'Courier New', monospace !important;
     min-height: 100vh !important;
+    margin: 0;
+    padding: 0;
 }
 
-/* Ensure the entire page has dark background */
-* {
-    box-sizing: border-box;
-}
-
+/* Force dark background on the entire viewport */
 body::before {
     content: '';
     position: fixed;
@@ -21,92 +25,81 @@ body::before {
     width: 100%;
     height: 100%;
     background-color: #1a1a1a;
-    z-index: -1;
+    z-index: -9999;
+    pointer-events: none;
 }
 
-/* Force text colors on all elements */
+/* ===== UNIVERSAL TEXT COLOR OVERRIDE ===== */
 *, *::before, *::after {
-    color: #00ff00 !important;
+    color: #007BFF !important;
+    box-sizing: border-box;
 }
 
-/* Specific overrides for common elements */
-h1, h2, h3, h4, h5, h6, p, span, div, label, small, li, td, th, a {
-    color: #00ff00 !important;
+/* Specific text elements */
+h1, h2, h3, h4, h5, h6, p, span, div, label, small, li, td, th, a, strong, em, i, b {
+    color: #007BFF !important;
 }
 
-/* Container backgrounds */
-.container, .container-fluid, main, section, article {
-    background-color: transparent !important;
+/* ===== CONTAINER AND LAYOUT ELEMENTS ===== */
+.container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    background-color: black;
 }
 
-/* Network topology image styling */
-.network-topology-img {
-    max-width: 100%;
-    height: auto;
-    border: 2px solid #00ff00;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.3);
-    transition: transform 0.3s ease;
-    background-color: #2a2a2a;
+.row, .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12,
+.col-sm, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12,
+.col-md, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12,
+.col-lg, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12,
+.col-xl, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
+    background-color: black;
 }
 
-.network-topology-img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
+main, section, article, aside, header, footer, nav {
+    background-color: black; 
 }
 
-/* Quiz container */
-.quiz-container {
-    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
-    color: #00ff00 !important;
-    border-radius: 15px;
-    padding: 30px;
-    margin: 20px 0;
-    box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
-    border: 1px solid #00ff00;
+/* ===== DJANGO ADMIN OVERRIDES ===== */
+#header, #branding, #content, #content-main, #changelist, #toolbar,
+.module, .form-row, .results, .paginator {
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
 }
 
-/* Section headers */
-.section-header {
-    background: rgba(0, 255, 0, 0.1) !important;
-    color: #00ff00 !important;
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid #00ff00;
+.admin-nav, .breadcrumbs {
+    background-color: #333 !important;
+    color: #007BFF !important;
 }
 
-.section-header h4 {
-    margin: 0;
-    font-weight: 600;
-    color: #00ff00 !important;
+/* ===== NAVIGATION ELEMENTS ===== */
+.navbar {
+    background-color: #1a1a1a !important;
+    border-bottom: 2px solid #007BFF;
 }
 
-/* Answer comparison boxes */
-.answer-comparison {
-    background: #2a2a2a !important;
-    border: 1px solid #00ff00;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 15px 0;
-    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.2);
-    color: #00ff00 !important;
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #007BFF !important;
 }
 
-.correct-answer {
-    background: linear-gradient(135deg, #1a4d1a, #0d3d0d) !important;
-    border-left: 5px solid #00ff00;
+.navbar-nav .nav-link {
+    color: #007BFF !important;
 }
 
-.user-answer {
-    background: linear-gradient(135deg, #4d1a1a, #3d0d0d) !important;
-    border-left: 5px solid #ff6b6b;
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link:focus {
+    color: #007BFF !important;
 }
 
-/* Card styling */
+.navbar-toggler {
+    border-color: #007BFF !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23007BFF' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* ===== CARD COMPONENTS ===== */
 .card {
-    border: 1px solid #00ff00 !important;
+    border: 1px solid #007BFF !important;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 255, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -120,41 +113,123 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small, li, td, th, a {
 
 .card-body, .card-header, .card-footer {
     background-color: #2a2a2a !important;
-    color: #00ff00 !important;
+    color: #007BFF !important;
 }
 
-.card-title, .card-text {
-    color: #00ff00 !important;
+.card-title, .card-text, .card-subtitle {
+    color: #ffffff !important;
 }
 
-/* Button styling */
+.card-header {
+    border-bottom: 1px solid #007BFF !important;
+}
+
+.card-footer {
+    border-top: 1px solid #007BFF !important;
+}
+
+/* ===== QUIZ-SPECIFIC COMPONENTS ===== */
+.quiz-container {
+    background: black;
+    color: #007BFF !important;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
+    border: 1px solid #007BFF;
+}
+
+.section-header {
+    background: #007BFF !important;
+    color: #007BFF !important;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px; 
+    backdrop-filter: blur(10px);
+    border: 1px solid #007BFF;
+}
+
+.section-header h4 {
+    margin: 0;
+    font-weight: 600;
+    color: #007BFF !important;
+}
+
+.answer-comparison {
+    background: #2a2a2a !important;
+    border: 1px solid #007BFF;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.2);
+    color: #007BFF !important;
+}
+
+.correct-answer {
+    background: linear-gradient(135deg, #1a4d1a, #0d3d0d) !important;
+    border-left: 5px solid #007BFF;
+}
+
+.user-answer {
+    background: linear-gradient(135deg, #4d1a1a, #3d0d0d) !important;
+    border-left: 5px solid #ff6b6b;
+}
+
+.network-topology-img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.3);
+    transition: transform 0.3s ease;
+    background-color: #2a2a2a;
+}
+
+.network-topology-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
+}
+
+/* ===== BUTTON COMPONENTS ===== */
 .btn {
     border-radius: 25px;
     padding: 10px 20px;
     font-weight: 600;
     transition: all 0.3s ease;
-    background-color: #00ff00 !important;
+    background-color: #007BFF !important;
     color: #1a1a1a !important;
-    border: 1px solid #00ff00 !important;
+    border: 1px solid #007BFF !important;
 }
 
-.btn:hover {
+.btn:hover, .btn:focus {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
     background-color: #00cc00 !important;
     color: #1a1a1a !important;
 }
 
+.btn-primary {
+    background-color: #007BFF !important;
+    border-color: #007BFF !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #007BFF !important;
+    border-color: #007BFF !important;
+    color: #1a1a1a !important;
+}
+
 .btn-secondary {
     background-color: #666 !important;
     border-color: #666 !important;
-    color: #00ff00 !important;
+    color: #007BFF !important;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
     background-color: #555 !important;
     border-color: #555 !important;
-    color: #00ff00 !important;
+    color: #007BFF !important;
 }
 
 .btn-danger {
@@ -163,44 +238,130 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small, li, td, th, a {
     color: #fff !important;
 }
 
-.btn-danger:hover {
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active {
     background-color: #ff3333 !important;
     border-color: #ff3333 !important;
     color: #fff !important;
 }
 
-/* Navbar styling */
-.navbar {
-    background-color: #1a1a1a !important;
-    border-bottom: 2px solid #00ff00;
+.btn-success {
+    background-color: #007BFF !important;
+    border-color: #007BFF !important;
+    color: #1a1a1a !important;
 }
 
-.navbar-brand {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #00ff00 !important;
+.btn-warning {
+    background-color: #ffff00 !important;
+    border-color: #ffff00 !important;
+    color: #1a1a1a !important;
 }
 
-.navbar-nav .nav-link {
-    color: #00ff00 !important;
+.btn-info {
+    background-color: #00ccff !important;
+    border-color: #00ccff !important;
+    color: #1a1a1a !important;
 }
 
-.navbar-nav .nav-link:hover {
+.btn-light {
+    background-color: #666 !important;
+    border-color: #666 !important;
+    color: #007BFF !important;
+}
+
+.btn-dark {
+    background-color: #333 !important;
+    border-color: #333 !important;
+    color: #007BFF !important;
+}
+
+/* ===== FORM ELEMENTS ===== */
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 2px solid #007BFF !important;
+    padding: 12px 15px;
+    transition: border-color 0.3s ease;
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007BFF !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 0, 0.25) !important;
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
+}
+
+.form-control::placeholder {
+    color: #666 !important;
+    opacity: 1;
+}
+
+.form-label {
+    color: #007BFF !important;
+    font-weight: 600;
+}
+
+.form-text {
     color: #00cc00 !important;
 }
 
-/* Alert styling */
+.form-check-input {
+    background-color: #2a2a2a !important;
+    border-color: #007BFF !important;
+}
+
+.form-check-input:checked {
+    background-color: #007BFF !important;
+    border-color: #007BFF !important;
+}
+
+.form-check-label {
+    color: #007BFF !important;
+}
+
+/* File input styling */
+input[type="file"] {
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
+    border: 2px solid #007BFF !important;
+    border-radius: 8px !important;
+    padding: 8px !important;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background-color: #007BFF;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #007BFF;
+}
+
+/* Textarea specific */
+textarea {
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
+    border: 2px solid #007BFF !important;
+    resize: vertical;
+}
+
+/* ===== ALERT COMPONENTS ===== */
 .alert {
     border-radius: 15px;
-    border: 1px solid #00ff00;
+    border: 1px solid #007BFF;
     background-color: #2a2a2a !important;
-    color: #00ff00 !important;
+    color: #007BFF !important;
 }
 
 .alert-success {
     background-color: #1a4d1a !important;
-    border-color: #00ff00;
-    color: #00ff00 !important;
+    border-color: #007BFF;
+    color: #007BFF !important;
 }
 
 .alert-warning {
@@ -221,126 +382,228 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small, li, td, th, a {
     color: #00ccff !important;
 }
 
-/* Form styling */
-.form-control, .form-select {
-    border-radius: 10px;
-    border: 2px solid #00ff00 !important;
-    padding: 12px 15px;
-    transition: border-color 0.3s ease;
-    background-color: #2a2a2a !important;
-    color: #00ff00 !important;
+.alert-primary {
+    background-color: #1a4d1a !important;
+    border-color: #007BFF;
+    color: #007BFF !important;
 }
 
-.form-control:focus, .form-select:focus {
-    border-color: #00cc00 !important;
-    box-shadow: 0 0 0 0.2rem rgba(0, 255, 0, 0.25) !important;
-    background-color: #2a2a2a !important;
-    color: #00ff00 !important;
+.alert-secondary {
+    background-color: #333 !important;
+    border-color: #666;
+    color: #007BFF !important;
 }
 
-.form-control::placeholder {
-    color: #666 !important;
-}
-
-.form-label {
-    color: #00ff00 !important;
-    font-weight: 600;
-}
-
-.form-text {
-    color: #00cc00 !important;
-}
-
-/* Table styling */
+/* ===== TABLE COMPONENTS ===== */
 .table {
     background-color: #2a2a2a !important;
-    color: #00ff00 !important;
+    color: #007BFF !important;
 }
 
 .table td, .table th {
-    border-color: #00ff00 !important;
-    color: #00ff00 !important;
-    background-color: #2a2a2a !important;
+    border-color: #007BFF !important;
+    color: #007BFF !important;
+    background-color: transparent !important;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #333 !important;
 }
 
-/* Badge styling */
+.table-hover tbody tr:hover {
+    background-color: #444 !important;
+    color: #007BFF !important;
+}
+
+.table-dark {
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
+}
+
+.table-bordered {
+    border: 1px solid #007BFF !important;
+}
+
+/* ===== BADGE AND PILL COMPONENTS ===== */
 .badge {
-    background-color: #00ff00 !important;
+    background-color: #007BFF !important;
     color: #1a1a1a !important;
 }
 
-.bg-success {
-    background-color: #00ff00 !important;
+.badge.bg-primary {
+    background-color: #007BFF !important;
+    color: #1a1a1a !important;
 }
 
-.bg-warning {
+.badge.bg-secondary {
+    background-color: #666 !important;
+    color: #007BFF !important;
+}
+
+.badge.bg-success {
+    background-color: #007BFF !important;
+    color: #1a1a1a !important;
+}
+
+.badge.bg-warning {
     background-color: #ffff00 !important;
     color: #1a1a1a !important;
 }
 
-.bg-danger {
+.badge.bg-danger {
     background-color: #ff4444 !important;
+    color: #fff !important;
 }
 
-/* Modal styling */
+.badge.bg-info {
+    background-color: #00ccff !important;
+    color: #1a1a1a !important;
+}
+
+/* ===== MODAL COMPONENTS ===== */
 .modal-content {
     background-color: #2a2a2a !important;
-    border: 1px solid #00ff00;
-    color: #00ff00 !important;
+    border: 1px solid #007BFF;
+    color: #007BFF !important;
 }
 
 .modal-header {
-    border-bottom: 1px solid #00ff00;
+    border-bottom: 1px solid #007BFF;
     background-color: #2a2a2a !important;
 }
 
 .modal-footer {
-    border-top: 1px solid #00ff00;
+    border-top: 1px solid #007BFF;
     background-color: #2a2a2a !important;
 }
 
 .modal-title {
-    color: #00ff00 !important;
+    color: #007BFF !important;
 }
 
 .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.8) !important;
 }
 
-/* Pagination styling */
+.modal-body {
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
+}
+
+/* Close button */
+.btn-close {
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(90deg);
+}
+
+/* ===== PAGINATION COMPONENTS ===== */
 .pagination .page-link {
     background-color: #2a2a2a !important;
-    border-color: #00ff00 !important;
-    color: #00ff00 !important;
+    border-color: #007BFF !important;
+    color: #007BFF !important;
 }
 
 .pagination .page-link:hover {
-    background-color: #00ff00 !important;
-    border-color: #00ff00 !important;
+    background-color: #007BFF !important;
+    border-color: #007BFF !important;
     color: #1a1a1a !important;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #00ff00 !important;
-    border-color: #00ff00 !important;
+    background-color: #007BFF !important;
+    border-color: #007BFF !important;
     color: #1a1a1a !important;
 }
 
-/* Text color utilities */
-.text-muted {
+.pagination .page-item.disabled .page-link {
+    background-color: #333 !important;
+    border-color: #555 !important;
     color: #666 !important;
+}
+
+/* ===== DROPDOWN COMPONENTS ===== */
+.dropdown-menu {
+    background-color: #2a2a2a !important;
+    border-color: #007BFF !important;
+}
+
+.dropdown-item {
+    color: #007BFF !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #007BFF !important;
+    color: #1a1a1a !important;
+}
+
+.dropdown-divider {
+    border-color: #007BFF !important;
+}
+
+/* ===== INPUT GROUP COMPONENTS ===== */
+.input-group-text {
+    background-color: #2a2a2a !important;
+    border-color: #007BFF !important;
+    color: #007BFF !important;
+}
+
+/* ===== LIST GROUP COMPONENTS ===== */
+.list-group-item {
+    background-color: #2a2a2a !important;
+    border-color: #007BFF !important;
+    color: #007BFF !important;
+}
+
+.list-group-item:hover {
+    background-color: #333 !important;
+}
+
+.list-group-item.active {
+    background-color: #007BFF !important;
+    border-color: #007BFF !important;
+    color: #1a1a1a !important;
+}
+
+/* ===== BREADCRUMB COMPONENTS ===== */
+.breadcrumb {
+    background-color: #2a2a2a !important;
+}
+
+.breadcrumb-item {
+    color: #007BFF !important;
+}
+
+.breadcrumb-item.active {
+    color: #00cc00 !important;
+}
+
+/* ===== PROGRESS COMPONENTS ===== */
+.progress {
+    background-color: #333 !important;
+}
+
+.progress-bar {
+    background-color: #007BFF !important;
+}
+
+/* ===== TEXT UTILITY CLASSES ===== */
+small.text-muted {
+    color: #ffffff !important;
+}
+
+.text-primary {
+    color: #007BFF !important;
+}
+
+.text-secondary {
+    color: #666 !important;
+}
+
+.text-success {
+    color: #007BFF !important;
 }
 
 .text-danger {
     color: #ff4444 !important;
-}
-
-.text-success {
-    color: #00ff00 !important;
 }
 
 .text-warning {
@@ -351,58 +614,174 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small, li, td, th, a {
     color: #00ccff !important;
 }
 
-/* Override Bootstrap background utilities */
-.bg-light, .bg-white {
+.text-light {
+    color: #007BFF !important;
+}
+
+.text-dark {
+    color: #007BFF !important;
+}
+
+/* ===== BACKGROUND UTILITY CLASSES ===== */
+.bg-primary {
+    background-color: #007BFF !important;
+    color: #1a1a1a !important;
+}
+
+.bg-secondary {
+    background-color: #666 !important;
+    color: #007BFF !important;
+}
+
+.bg-success {
+    background-color: #007BFF !important;
+    color: #1a1a1a !important;
+}
+
+.bg-danger {
+    background-color: #ff4444 !important;
+    color: #fff !important;
+}
+
+.bg-warning {
+    background-color: #ffff00 !important;
+    color: #1a1a1a !important;
+}
+
+.bg-info {
+    background-color: #00ccff !important;
+    color: #1a1a1a !important;
+}
+
+.bg-light {
     background-color: #2a2a2a !important;
+    color: #007BFF !important;
 }
 
 .bg-dark {
     background-color: #1a1a1a !important;
+    color: #007BFF !important;
 }
 
-/* List styling */
-ul, ol {
-    color: #00ff00 !important;
+.bg-white {
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
 }
 
-li {
-    color: #00ff00 !important;
+/* ===== BORDER UTILITY CLASSES ===== */
+.border {
+    border-color: #007BFF !important;
 }
 
-/* Link styling */
+.border-primary {
+    border-color: #007BFF !important;
+}
+
+.border-secondary {
+    border-color: #666 !important;
+}
+
+.border-success {
+    border-color: #007BFF !important;
+}
+
+.border-danger {
+    border-color: #ff4444 !important;
+}
+
+.border-warning {
+    border-color: #ffff00 !important;
+}
+
+.border-info {
+    border-color: #00ccff !important;
+}
+
+/* ===== LINK STYLING ===== */
 a {
     color: #00cc00 !important;
     text-decoration: none;
 }
 
-a:hover {
-    color: #00ff00 !important;
+a:hover, a:focus {
+    color: #007BFF !important;
     text-decoration: underline;
 }
 
-/* Input group styling */
-.input-group-text {
-    background-color: #2a2a2a !important;
-    border-color: #00ff00 !important;
-    color: #00ff00 !important;
+a.btn {
+    text-decoration: none !important;
 }
 
-/* Dropdown styling */
-.dropdown-menu {
-    background-color: #2a2a2a !important;
-    border-color: #00ff00 !important;
+/* ===== LIST STYLING ===== */
+ul, ol {
+    color: #007BFF !important;
 }
 
-.dropdown-item {
-    color: #00ff00 !important;
+li {
+    color: #007BFF !important;
 }
 
-.dropdown-item:hover {
-    background-color: #00ff00 !important;
-    color: #1a1a1a !important;
+/* ===== DJANGO MESSAGES FRAMEWORK ===== */
+.messages {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
 }
 
-/* Responsive adjustments */
+.messages li {
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid;
+}
+
+.messages .success {
+    background-color: #1a4d1a !important;
+    border-color: #007BFF;
+    color: #007BFF !important;
+}
+
+.messages .error {
+    background-color: #4d1a1a !important;
+    border-color: #ff4444;
+    color: #ff4444 !important;
+}
+
+.messages .warning {
+    background-color: #4d4d1a !important;
+    border-color: #ffff00;
+    color: #ffff00 !important;
+}
+
+.messages .info {
+    background-color: #1a3d4d !important;
+    border-color: #00ccff;
+    color: #00ccff !important;
+}
+
+/* ===== DJANGO FORMS STYLING ===== */
+.errorlist {
+    color: #ff4444 !important;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+}
+
+.errorlist li {
+    color: #ff4444 !important;
+    background-color: #4d1a1a !important;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #ff4444;
+}
+
+.helptext {
+    color: #00cc00 !important;
+    font-size: 0.875rem;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 768px) {
     .quiz-container {
         padding: 20px;
@@ -417,20 +796,64 @@ a:hover {
         max-height: 300px;
         object-fit: contain;
     }
+    
+    .form-control, textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
 }
 
-/* Force override any remaining white backgrounds */
-div, section, article, aside, main, header, footer, nav {
+@media (max-width: 576px) {
+    .quiz-container {
+        padding: 15px;
+        margin: 5px;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+:focus {
+    outline: 2px solid #007BFF !important;
+    outline-offset: 2px;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    body {
+        background-color: black;
+        color: black !important;
+    }
+    
+    * {
+        background-color: transparent !important;
+        color: black !important;
+    }
+}
+
+/* ===== FINAL OVERRIDE - ENSURE NOTHING BREAKS THE THEME ===== */
+/* This is the nuclear option - forces everything to be dark */
+body *, body *::before, body *::after {
+    background-color: black;
+}
+
+/* Force specific problematic elements */
+iframe, embed, object {
+    border: 1px solid #007BFF !important;
+}
+
+/* Ensure all custom components inherit the theme */
+.custom-component, .user-content, .dynamic-content {
     background-color: transparent !important;
+    color: #007BFF !important;
 }
 
-/* Ensure proper text visibility */
-.invisible-text {
-    color: #00ff00 !important;
-    opacity: 1 !important;
-}
-
-/* Override any inherited styles */
-body * {
-    background-color: inherit;
+/* Override any inline styles that might break the theme */
+[style*="background-color: black"], [style*="background-color:#ffffff"],
+[style*="background-color: #fff"], [style*="color: black"],
+[style*="color: #000"], [style*="color:#000000"] {
+    background-color: #2a2a2a !important;
+    color: #007BFF !important;
 }

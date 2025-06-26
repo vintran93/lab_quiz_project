@@ -1,4 +1,4 @@
-<!-- ===== lab_simulations/templates/lab_simulations/simulation_form.html ===== -->
+<!-- Enhanced simulation_form.html with consistent dark theme -->
 {% extends 'lab_simulations/base.html' %}
 
 {% block title %}
@@ -6,71 +6,215 @@
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h3>{% if object %}Edit Simulation{% else %}Create New Lab Simulation{% endif %}</h3>
-            </div>
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
-                        {{ form.title }}
-                        {% if form.title.errors %}
-                            <div class="text-danger">{{ form.title.errors }}</div>
-                        {% endif %}
-                    </div>
+<div class="quiz-container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header section-header">
+                    <h3 class="mb-0">{% if object %}Edit Simulation{% else %}Create New Lab Simulation{% endif %}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" class="simulation-form">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">
+                                <strong>Title</strong>
+                            </label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.title.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Enter a descriptive title for your lab simulation</div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="{{ form.image.id_for_label }}" class="form-label">Network Topology Image</label>
-                        {{ form.image }}
-                        {% if form.image.errors %}
-                            <div class="text-danger">{{ form.image.errors }}</div>
-                        {% endif %}
-                        {% if object and object.image %}
-                            <div class="mt-2">
-                                <small class="text-muted">Current image:</small><br>
-                                <img src="{{ object.image.url }}" alt="Current image" style="max-width: 200px; height: auto;">
-                            </div>
-                        {% endif %}
-                    </div>
+                        <div class="mb-4">
+                            <label for="{{ form.image.id_for_label }}" class="form-label">
+                                <strong>Network Topology Image</strong>
+                            </label>
+                            {{ form.image }}
+                            {% if form.image.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.image.errors }}
+                                </div>
+                            {% endif %}
+                            {% if object and object.image %}
+                                <div class="mt-3 answer-comparison">
+                                    <small class="text-muted">Current image:</small><br>
+                                    <img src="{{ object.image.url }}" alt="Current image" class="network-topology-img mt-2" style="max-width: 300px;">
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Upload a network topology diagram (PNG, JPG, or GIF)</div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="{{ form.task.id_for_label }}" class="form-label">Task Description</label>
-                        {{ form.task }}
-                        {% if form.task.errors %}
-                            <div class="text-danger">{{ form.task.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="mb-4">
+                            <label for="{{ form.task.id_for_label }}" class="form-label">
+                                <strong>Task Description</strong>
+                            </label>
+                            {{ form.task }}
+                            {% if form.task.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.task.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Provide detailed instructions for what students need to accomplish</div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="{{ form.questions.id_for_label }}" class="form-label">Questions</label>
-                        {{ form.questions }}
-                        {% if form.questions.errors %}
-                            <div class="text-danger">{{ form.questions.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="mb-4">
+                            <label for="{{ form.questions.id_for_label }}" class="form-label">
+                                <strong>Questions</strong>
+                            </label>
+                            {{ form.questions }}
+                            {% if form.questions.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.questions.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">List the questions students need to answer (one per line or numbered)</div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="{{ form.lab_answers.id_for_label }}" class="form-label">Lab Answers (Correct Answers)</label>
-                        {{ form.lab_answers }}
-                        {% if form.lab_answers.errors %}
-                            <div class="text-danger">{{ form.lab_answers.errors }}</div>
-                        {% endif %}
-                    </div>
+                        <div class="mb-4">
+                            <label for="{{ form.lab_answers.id_for_label }}" class="form-label">
+                                <strong>Lab Answers (Correct Answers)</strong>
+                            </label>
+                            {{ form.lab_answers }}
+                            {% if form.lab_answers.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.lab_answers.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Provide the correct answers corresponding to each question</div>
+                        </div>
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="{% url 'simulation_list' %}" class="btn btn-secondary me-md-2">Cancel</a>
-                        <button type="submit" class="btn btn-primary">
-                            {% if object %}Update Simulation{% else %}Create Simulation{% endif %}
-                        </button>
-                    </div>
-                </form>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'simulation_list' %}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> 
+                                {% if object %}Update Simulation{% else %}Create Simulation{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Consistent dark theme styles to match simulation_list.html */
+.simulation-form {
+    background-color: transparent;
+}
+
+/* Card styling to match the dark theme */
+.card {
+    background-color: #444 !important;
+    border: 1px solid #666 !important;
+    color: white !important;
+}
+
+.card-body {
+    background-color: #444 !important;
+    color: white !important;
+}
+
+/* Form control styling for dark theme consistency */
+.simulation-form .form-control,
+.simulation-form .form-select,
+.simulation-form textarea {
+    background-color: #2a2a2a !important;
+    border: 1px solid #666 !important;
+    color: white !important;
+    border-radius: 5px;
+    padding: 10px 12px;
+}
+
+.simulation-form .form-control:focus,
+.simulation-form .form-select:focus,
+.simulation-form textarea:focus {
+    background-color: #2a2a2a !important;
+    border-color: #007bff !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+.simulation-form .form-control::placeholder,
+.simulation-form textarea::placeholder {
+    color: #aaa !important;
+    opacity: 1;
+}
+
+/* File input styling */
+.simulation-form input[type="file"] {
+    background-color: #2a2a2a !important;
+    color: white !important;
+}
+
+.simulation-form input[type="file"]::-webkit-file-upload-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.simulation-form input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #0056b3;
+}
+
+/* Text and label styling for consistency */
+.simulation-form label,
+.simulation-form .form-text,
+.simulation-form small {
+    color: white !important;
+}
+
+.simulation-form .text-muted {
+    color: #aaa !important;
+}
+
+/* Required field indicators */
+.simulation-form .form-label.required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+/* Button styling to match Bootstrap theme */
+.simulation-form .btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.simulation-form .btn i {
+    margin-right: 8px;
+}
+
+/* Alert styling for dark theme */
+.simulation-form .alert-danger {
+    background-color: #4d1e1e !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .quiz-container {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .simulation-form .form-control,
+    .simulation-form textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+</style>
 {% endblock %}

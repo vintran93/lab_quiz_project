@@ -1,4 +1,4 @@
-<!-- ===== lab_simulations/templates/lab_simulations/simulation_delete.html ===== -->
+<!-- simulation_delete.html with consistent dark theme -->
 {% extends 'lab_simulations/base.html' %}
 
 {% block title %}Delete {{ object.title }}{% endblock %}
@@ -6,21 +6,21 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card">
+        <div class="card delete-card">
             <div class="card-header bg-danger text-white">
                 <h3>Delete Simulation</h3>
             </div>
             <div class="card-body">
                 <p>Are you sure you want to delete "<strong>{{ object.title }}</strong>"?</p>
-                <p class="text-muted">This action cannot be undone.</p>
+                <p class="warning-text">This action cannot be undone.</p>
                 
                 {% if object.image %}
-                    <div class="mb-3">
-                        <img src="{{ object.image.url }}" alt="Network Topology" style="max-width: 200px; height: auto;">
+                    <div class="mb-3 image-preview">
+                        <img src="{{ object.image.url }}" alt="Network Topology" class="preview-img">
                     </div>
                 {% endif %}
 
-                <form method="post">
+                <form method="post" class="delete-form">
                     {% csrf_token %}
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a href="{% url 'simulation_list' %}" class="btn btn-secondary me-md-2">Cancel</a>
@@ -31,4 +31,108 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Dark theme styles for delete confirmation page */
+.delete-card {
+    background-color: #444 !important;
+    border: 1px solid #666 !important;
+    color: white !important;
+}
+
+.delete-card .card-body {
+    background-color: #444 !important;
+    color: white !important;
+}
+
+/* Text styling for dark theme */
+.delete-card p {
+    color: white !important;
+}
+
+.delete-card strong {
+    color: #ffc107 !important; /* Highlight the title in yellow for emphasis */
+}
+
+.warning-text {
+    color: #ff6b6b !important; /* Light red for warning text */
+    font-style: italic;
+}
+
+/* Image preview styling */
+.image-preview {
+    text-align: center;
+    padding: 15px;
+    background-color: #333;
+    border-radius: 5px;
+    border: 1px solid #555;
+}
+
+.preview-img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 5px;
+    border: 2px solid #555;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Form styling */
+.delete-form {
+    margin-top: 20px;
+}
+
+/* Button styling consistency */
+.delete-card .btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.delete-card .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.delete-card .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.delete-card .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .col-md-6 {
+        margin: 10px;
+    }
+    
+    .d-grid.gap-2.d-md-flex {
+        gap: 10px;
+    }
+    
+    .preview-img {
+        max-width: 150px;
+    }
+}
+
+/* Add subtle animation for better UX */
+.delete-card {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
 {% endblock %}
