@@ -1,16 +1,45 @@
-/* # ===== static/css/style.css ===== */
-/* Custom styles for Lab Simulation Quiz - Dark Theme with Green Font */
-body {
-    background-color: #1a1a1a;
-    color: #00ff00;
-    font-family: 'Courier New', monospace;
+/* Enhanced Dark Theme CSS - Lab Simulation Quiz */
+
+/* Force dark background on all elements */
+html, body {
+    background-color: #1a1a1a !important;
+    color: #00ff00 !important;
+    font-family: 'Courier New', monospace !important;
+    min-height: 100vh !important;
 }
 
-/* Override Bootstrap's default text colors */
-h1, h2, h3, h4, h5, h6, p, span, div, label, small {
+/* Ensure the entire page has dark background */
+* {
+    box-sizing: border-box;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    z-index: -1;
+}
+
+/* Force text colors on all elements */
+*, *::before, *::after {
     color: #00ff00 !important;
 }
 
+/* Specific overrides for common elements */
+h1, h2, h3, h4, h5, h6, p, span, div, label, small, li, td, th, a {
+    color: #00ff00 !important;
+}
+
+/* Container backgrounds */
+.container, .container-fluid, main, section, article {
+    background-color: transparent !important;
+}
+
+/* Network topology image styling */
 .network-topology-img {
     max-width: 100%;
     height: auto;
@@ -18,6 +47,7 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 255, 0, 0.3);
     transition: transform 0.3s ease;
+    background-color: #2a2a2a;
 }
 
 .network-topology-img:hover {
@@ -25,9 +55,10 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
     box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
 }
 
+/* Quiz container */
 .quiz-container {
-    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-    color: #00ff00;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
+    color: #00ff00 !important;
     border-radius: 15px;
     padding: 30px;
     margin: 20px 0;
@@ -35,9 +66,10 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
     border: 1px solid #00ff00;
 }
 
+/* Section headers */
 .section-header {
-    background: rgba(0, 255, 0, 0.1);
-    color: #00ff00;
+    background: rgba(0, 255, 0, 0.1) !important;
+    color: #00ff00 !important;
     padding: 15px 20px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -51,32 +83,34 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
     color: #00ff00 !important;
 }
 
+/* Answer comparison boxes */
 .answer-comparison {
-    background: #2a2a2a;
+    background: #2a2a2a !important;
     border: 1px solid #00ff00;
     border-radius: 10px;
     padding: 20px;
     margin: 15px 0;
     box-shadow: 0 4px 6px rgba(0, 255, 0, 0.2);
-    color: #00ff00;
+    color: #00ff00 !important;
 }
 
 .correct-answer {
-    background: linear-gradient(135deg, #1a4d1a, #0d3d0d);
+    background: linear-gradient(135deg, #1a4d1a, #0d3d0d) !important;
     border-left: 5px solid #00ff00;
 }
 
 .user-answer {
-    background: linear-gradient(135deg, #4d1a1a, #3d0d0d);
+    background: linear-gradient(135deg, #4d1a1a, #3d0d0d) !important;
     border-left: 5px solid #ff6b6b;
 }
 
+/* Card styling */
 .card {
-    border: 1px solid #00ff00;
+    border: 1px solid #00ff00 !important;
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 255, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: #2a2a2a;
+    background-color: #2a2a2a !important;
 }
 
 .card:hover {
@@ -85,53 +119,60 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
 }
 
 .card-body, .card-header, .card-footer {
-    background-color: #2a2a2a;
-    color: #00ff00;
+    background-color: #2a2a2a !important;
+    color: #00ff00 !important;
 }
 
 .card-title, .card-text {
     color: #00ff00 !important;
 }
 
+/* Button styling */
 .btn {
     border-radius: 25px;
     padding: 10px 20px;
     font-weight: 600;
     transition: all 0.3s ease;
-    background-color: #00ff00;
+    background-color: #00ff00 !important;
     color: #1a1a1a !important;
-    border: 1px solid #00ff00;
+    border: 1px solid #00ff00 !important;
 }
 
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
-    background-color: #00cc00;
+    background-color: #00cc00 !important;
     color: #1a1a1a !important;
 }
 
 .btn-secondary {
-    background-color: #666;
-    border-color: #666;
+    background-color: #666 !important;
+    border-color: #666 !important;
     color: #00ff00 !important;
 }
 
 .btn-secondary:hover {
-    background-color: #555;
-    border-color: #555;
+    background-color: #555 !important;
+    border-color: #555 !important;
     color: #00ff00 !important;
 }
 
 .btn-danger {
-    background-color: #ff4444;
-    border-color: #ff4444;
+    background-color: #ff4444 !important;
+    border-color: #ff4444 !important;
     color: #fff !important;
 }
 
 .btn-danger:hover {
-    background-color: #ff3333;
-    border-color: #ff3333;
+    background-color: #ff3333 !important;
+    border-color: #ff3333 !important;
     color: #fff !important;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #1a1a1a !important;
+    border-bottom: 2px solid #00ff00;
 }
 
 .navbar-brand {
@@ -140,51 +181,61 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
     color: #00ff00 !important;
 }
 
+.navbar-nav .nav-link {
+    color: #00ff00 !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #00cc00 !important;
+}
+
+/* Alert styling */
 .alert {
     border-radius: 15px;
     border: 1px solid #00ff00;
-    background-color: #2a2a2a;
-    color: #00ff00;
+    background-color: #2a2a2a !important;
+    color: #00ff00 !important;
 }
 
 .alert-success {
-    background-color: #1a4d1a;
+    background-color: #1a4d1a !important;
     border-color: #00ff00;
     color: #00ff00 !important;
 }
 
 .alert-warning {
-    background-color: #4d4d1a;
+    background-color: #4d4d1a !important;
     border-color: #ffff00;
     color: #ffff00 !important;
 }
 
 .alert-danger {
-    background-color: #4d1a1a;
+    background-color: #4d1a1a !important;
     border-color: #ff4444;
     color: #ff4444 !important;
 }
 
 .alert-info {
-    background-color: #1a3d4d;
+    background-color: #1a3d4d !important;
     border-color: #00ccff;
     color: #00ccff !important;
 }
 
+/* Form styling */
 .form-control, .form-select {
     border-radius: 10px;
-    border: 2px solid #00ff00;
+    border: 2px solid #00ff00 !important;
     padding: 12px 15px;
     transition: border-color 0.3s ease;
-    background-color: #2a2a2a;
-    color: #00ff00;
+    background-color: #2a2a2a !important;
+    color: #00ff00 !important;
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #00cc00;
-    box-shadow: 0 0 0 0.2rem rgba(0, 255, 0, 0.25);
-    background-color: #2a2a2a;
-    color: #00ff00;
+    border-color: #00cc00 !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 0, 0.25) !important;
+    background-color: #2a2a2a !important;
+    color: #00ff00 !important;
 }
 
 .form-control::placeholder {
@@ -200,29 +251,20 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
     color: #00cc00 !important;
 }
 
-/* Navbar styling */
-.navbar {
-    background-color: #1a1a1a !important;
-    border-bottom: 2px solid #00ff00;
-}
-
-.navbar-nav .nav-link {
-    color: #00ff00 !important;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #00cc00 !important;
-}
-
 /* Table styling */
 .table {
-    background-color: #2a2a2a;
-    color: #00ff00;
+    background-color: #2a2a2a !important;
+    color: #00ff00 !important;
 }
 
 .table td, .table th {
-    border-color: #00ff00;
+    border-color: #00ff00 !important;
     color: #00ff00 !important;
+    background-color: #2a2a2a !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #333 !important;
 }
 
 /* Badge styling */
@@ -246,42 +288,49 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
 
 /* Modal styling */
 .modal-content {
-    background-color: #2a2a2a;
+    background-color: #2a2a2a !important;
     border: 1px solid #00ff00;
+    color: #00ff00 !important;
 }
 
 .modal-header {
     border-bottom: 1px solid #00ff00;
+    background-color: #2a2a2a !important;
 }
 
 .modal-footer {
     border-top: 1px solid #00ff00;
+    background-color: #2a2a2a !important;
 }
 
 .modal-title {
     color: #00ff00 !important;
 }
 
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
 /* Pagination styling */
 .pagination .page-link {
-    background-color: #2a2a2a;
-    border-color: #00ff00;
-    color: #00ff00;
+    background-color: #2a2a2a !important;
+    border-color: #00ff00 !important;
+    color: #00ff00 !important;
 }
 
 .pagination .page-link:hover {
-    background-color: #00ff00;
-    border-color: #00ff00;
-    color: #1a1a1a;
+    background-color: #00ff00 !important;
+    border-color: #00ff00 !important;
+    color: #1a1a1a !important;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #00ff00;
-    border-color: #00ff00;
-    color: #1a1a1a;
+    background-color: #00ff00 !important;
+    border-color: #00ff00 !important;
+    color: #1a1a1a !important;
 }
 
-/* Text colors for various elements */
+/* Text color utilities */
 .text-muted {
     color: #666 !important;
 }
@@ -302,6 +351,57 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
     color: #00ccff !important;
 }
 
+/* Override Bootstrap background utilities */
+.bg-light, .bg-white {
+    background-color: #2a2a2a !important;
+}
+
+.bg-dark {
+    background-color: #1a1a1a !important;
+}
+
+/* List styling */
+ul, ol {
+    color: #00ff00 !important;
+}
+
+li {
+    color: #00ff00 !important;
+}
+
+/* Link styling */
+a {
+    color: #00cc00 !important;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00ff00 !important;
+    text-decoration: underline;
+}
+
+/* Input group styling */
+.input-group-text {
+    background-color: #2a2a2a !important;
+    border-color: #00ff00 !important;
+    color: #00ff00 !important;
+}
+
+/* Dropdown styling */
+.dropdown-menu {
+    background-color: #2a2a2a !important;
+    border-color: #00ff00 !important;
+}
+
+.dropdown-item {
+    color: #00ff00 !important;
+}
+
+.dropdown-item:hover {
+    background-color: #00ff00 !important;
+    color: #1a1a1a !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .quiz-container {
@@ -317,4 +417,20 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, small {
         max-height: 300px;
         object-fit: contain;
     }
+}
+
+/* Force override any remaining white backgrounds */
+div, section, article, aside, main, header, footer, nav {
+    background-color: transparent !important;
+}
+
+/* Ensure proper text visibility */
+.invisible-text {
+    color: #00ff00 !important;
+    opacity: 1 !important;
+}
+
+/* Override any inherited styles */
+body * {
+    background-color: inherit;
 }
