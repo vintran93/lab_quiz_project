@@ -8,7 +8,12 @@
     <div class="col-md-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Lab Simulation Quizzes</h2>
-            <a href="{% url 'simulation_create' %}" class="btn btn-primary">Create New Simulation</a>
+            <div>
+                {% if simulations %}
+                    <button id="randomQuizBtn" class="btn btn-info me-2">Random Quiz</button>
+                {% endif %}
+                <a href="{% url 'simulation_create' %}" class="btn btn-primary">Create New Simulation</a>
+            </div>
         </div>
 
         {% if simulations %}
@@ -62,4 +67,48 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const randomQuizBtn = document.getElementById('randomQuizBtn');
+    if (randomQuizBtn) {
+        randomQuizBtn.addEventListener('click', function() {
+            console.log('Random quiz button clicked'); // Debug log
+            
+            // Try multiple selectors to find the simulation links
+            let simulationLinks = document.querySelectorAll('a[href*="simulation_detail"]');
+            
+            // If that doesn't work, try selecting by the button text
+            if (simulationLinks.length === 0) {
+                simulationLinks = document.querySelectorAll('a.btn-success');
+            }
+            
+            // If still no links, try a more general approach
+            if (simulationLinks.length === 0) {
+                simulationLinks = Array.from(document.querySelectorAll('a')).filter(link => 
+                    link.textContent.trim() === 'Take Quiz'
+                );
+            }
+            
+            console.log('Found', simulationLinks.length, 'simulation links'); // Debug log
+            
+            if (simulationLinks.length > 0) {
+                // Choose a random simulation
+                const randomIndex = Math.floor(Math.random() * simulationLinks.length);
+                const randomLink = simulationLinks[randomIndex];
+                
+                console.log('Navigating to:', randomLink.href); // Debug log
+                
+                // Navigate to the random simulation
+                window.location.href = randomLink.href;
+            } else {
+                console.log('No simulation links found'); // Debug log
+                alert('No simulations available for random selection');
+            }
+        });
+    } else {
+        console.log('Random quiz button not found'); // Debug log
+    }
+});
+</script>
 {% endblock %}
