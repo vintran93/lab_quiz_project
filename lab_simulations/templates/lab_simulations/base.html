@@ -9,23 +9,30 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .network-topology-img {
-            max-width: 75%;
-            height: auto;
-            border: 2px solid #ddd;
+            max-width: 100%; /* Important: Image will not exceed the width of its parent */
+            height: auto;    /* Important: Maintains aspect ratio, preventing distortion */
+            /* Remove any fixed 'width' or 'min-width' properties if they are causing overflow */
+            /* For example, remove 'min-width: 800px !important;' if it's forcing images too large */
+            
+            /* You can keep other styling properties as needed, e.g.: */
+            border: 2px solid #007BFF;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: block;
-            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0, 255, 0, 0.3);
+            transition: transform 0.3s ease;
+            background-color: #2a2a2a;
+            display: block; /* Ensures it's a block-level element for margin auto */
+            margin: 0 auto;  /* Centers the image horizontally within its parent */
         }
+        
         .quiz-container {
             max-width: 1000px;
             max-height: none !important;
-            width: 75%;
+            width: 100%;
             margin: 0 auto;
         }
 
         .text-center.mb-12 {
-            width: 75% !important;
+            width: 100% !important;
             padding: 40px !important;
             margin: 0 auto !important;
             text-align: center;
@@ -114,5 +121,9 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

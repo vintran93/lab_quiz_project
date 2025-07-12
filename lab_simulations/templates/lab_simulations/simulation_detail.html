@@ -14,17 +14,23 @@
                 </div>
             </div>
 
-            <!-- Network Topology Image -->
             {% if simulation.image %}
                 <div class="section-header">
                     <h4>Network Topology</h4>
                 </div>
-                <div class="text-center mb-12">
-                    <img src="{{ simulation.image.url }}" alt="Network Topology" class="network-topology-img">
+                <div class="d-flex justify-content-center align-items-center mb-12 image-container">
+                    <img id="networkTopologyImage" src="{{ simulation.image.url }}" alt="Network Topology" class="network-topology-img">
+                    <div class="ms-3 image-size-controls">
+                        <button type="button" class="btn btn-sm btn-info mb-2" id="increaseImageSize">
+                            <i class="fas fa-plus"></i> Larger
+                        </button>
+                        <button type="button" class="btn btn-sm btn-info" id="decreaseImageSize">
+                            <i class="fas fa-minus"></i> Smaller
+                        </button>
+                    </div>
                 </div>
             {% endif %}
 
-            <!-- Task Section -->
             <div class="section-header">
                 <h4>Task</h4>
             </div>
@@ -32,7 +38,6 @@
                 <p>{{ simulation.task|linebreaks }}</p>
             </div>
 
-            <!-- Questions Section -->
             <div class="section-header">
                 <h4>Questions</h4>
             </div>
@@ -40,7 +45,6 @@
                 <p>{{ simulation.questions|linebreaks }}</p>
             </div>
 
-            <!-- User Answer Input -->
             <div class="section-header">
                 <h4>Your Answers</h4>
             </div>
@@ -138,5 +142,81 @@
         font-size: 16px; /* Prevents zoom on iOS */
     }
 }
+
+/* Custom styles for image and controls */
+.network-topology-img {
+    width: auto;    /* Let JS manage width */
+    height: auto;   /* Important: Maintains aspect ratio, preventing distortion */
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.3);
+    transition: all 0.3s ease; /* Smooth transition for size changes */
+    background-color: #2a2a2a;
+    display: block; /* Ensures it's a block-level element for margin auto */
+    margin: 0 auto;  /* Centers the image horizontally within its parent */
+}
+
+.image-container {
+    /* Bootstrap's d-flex, justify-content-center, align-items-center classes handle the main layout */
+}
+
+.image-size-controls {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 5px; /* Space between buttons */
+}
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const image = document.getElementById('networkTopologyImage');
+    const increaseBtn = document.getElementById('increaseImageSize');
+    const decreaseBtn = document.getElementById('decreaseImageSize');
+
+    if (image && increaseBtn && decreaseBtn) {
+        let currentScale = 100; // Start at 100% scale
+        
+        // Get the original width of the image once it's loaded
+        let originalWidth = 0;
+        
+        // Function to update image size
+        function updateImageSize() {
+            if (originalWidth === 0) {
+                // If original width not set yet, use the current width
+                originalWidth = image.naturalWidth || image.offsetWidth;
+            }
+            const newWidth = (originalWidth * currentScale) / 100;
+            image.style.width = `${newWidth}px`;
+            image.style.maxWidth = 'none'; // Override any max-width constraints
+        }
+
+        // Wait for image to load to get its natural dimensions
+        if (image.complete) {
+            originalWidth = image.naturalWidth;
+            updateImageSize();
+        } else {
+            image.addEventListener('load', function() {
+                originalWidth = image.naturalWidth;
+                updateImageSize();
+            });
+        }
+
+        increaseBtn.addEventListener('click', function() {
+            currentScale += 10; // Increase scale by 10%
+            if (currentScale > 200) { // Cap max scale at 200%
+                currentScale = 200;
+            }
+            updateImageSize();
+        });
+
+        decreaseBtn.addEventListener('click', function() {
+            currentScale -= 10; // Decrease scale by 10%
+            if (currentScale < 50) { // Set a minimum scale at 50%
+                currentScale = 50;
+            }
+            updateImageSize();
+        });
+    }
+});
+</script>
 {% endblock %}
