@@ -1,4 +1,3 @@
-<!-- simulation_detail.html with consistent dark theme -->
 {% extends 'lab_simulations/base.html' %}
 
 {% block title %}{{ simulation.title }}{% endblock %}
@@ -20,7 +19,7 @@
                 <div class="section-header">
                     <h4>Network Topology</h4>
                 </div>
-                <div class="text-center mb-4">
+                <div class="text-center mb-12">
                     <img src="{{ simulation.image.url }}" alt="Network Topology" class="network-topology-img">
                 </div>
             {% endif %}
@@ -45,7 +44,7 @@
             <div class="section-header">
                 <h4>Your Answers</h4>
             </div>
-            <form method="post" action="{% url 'submit_quiz' simulation.pk %}" class="quiz-form">
+            <form method="post" action="{% url 'submit_quiz' simulation.pk %}" class="quiz-form mb-5">
                 {% csrf_token %}
                 <div class="mb-3">
                     {{ quiz_form.user_answers }}

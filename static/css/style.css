@@ -137,6 +137,8 @@ main, section, article, aside, header, footer, nav {
     margin: 20px 0;
     box-shadow: 0 10px 30px rgba(0, 255, 0, 0.2);
     border: 1px solid #007BFF;
+    max-width: '1400px';
+    max-height: '1000px';
 }
 
 .section-header {
@@ -176,8 +178,10 @@ main, section, article, aside, header, footer, nav {
 }
 
 .network-topology-img {
-    max-width: 100%;
-    height: auto;
+    max-width: 2000px !important;
+    width: 100% !important;
+    min-width: 800px !important;
+    height: auto;    /* Always keep this to prevent distortion */
     border: 2px solid #007BFF;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 255, 0, 0.3);
@@ -188,6 +192,13 @@ main, section, article, aside, header, footer, nav {
 .network-topology-img:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 255, 0, 0.5);
+}
+
+.text-center.mb-12 {
+    width: 1200px !important;
+    height: 1800px !important;
+    background-color: red !important; /* Temporary to see the container */
+    border: 5px solid yellow !important; /* Temporary to see the borders */
 }
 
 /* ===== BUTTON COMPONENTS ===== */
@@ -793,7 +804,7 @@ li {
     }
     
     .network-topology-img {
-        max-height: 300px;
+        max-height: none;
         object-fit: contain;
     }
     

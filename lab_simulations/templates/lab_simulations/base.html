@@ -9,70 +9,83 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .network-topology-img {
-            max-width: 100%;
+            max-width: 75%;
             height: auto;
             border: 2px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 0 auto;
         }
         .quiz-container {
-            background: #f8f9fa; /* Light background for contrast */
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            color: #333; /* Dark text for contrast */
+            max-width: 1000px;
+            max-height: none !important;
+            width: 75%;
+            margin: 0 auto;
         }
+
+        .text-center.mb-12 {
+            width: 75% !important;
+            padding: 40px !important;
+            margin: 0 auto !important;
+            text-align: center;
+        }
+
+        
         /* Override for quiz-container within dark theme */
         body {
             background-color: #343a40; /* Dark background for the whole page */
             color: white; /* Default text color for the body */
         }
-        .quiz-container {
-            background: #495057; /* Darker background for specific containers */
-            color: white; /* Text color within quiz-container */
-        }
+        
         .section-header {
             background: #007bff;
             color: white;
             padding: 10px 15px;
             border-radius: 5px;
             margin-bottom: 15px;
+            text-align: center;
         }
         .answer-comparison {
             background: white;
             border: 1px solid #ddd;
             border-radius: 5px;
             padding: 15px;
-            margin: 10px 0;
+            margin: 10px auto;
+            max-width: 100%;
         }
         .correct-answer {
             background-color: #d4edda;
             border-left: 4px solid #28a745;
             color: #155724; /* Darker text for readability on light green */
+            margin: 10px auto;
         }
         .user-answer {
             background-color: #f8d7da;
             border-left: 4px solid #dc3545;
             color: #721c24; /* Darker text for readability on light red */
+            margin: 10px auto;
         }
         /* Adjust for dark theme in quiz_results.html answer comparison */
         .quiz-container .answer-comparison {
             background: #343a40; /* Dark background */
             border: 1px solid #6c757d; /* Darker border */
             color: white; /* White text */
+            margin: 10px auto;
         }
         .quiz-container .correct-answer {
             background-color: #28a74550; /* Semi-transparent green */
             border-left-color: #28a745;
             color: white;
+            margin: 10px auto;
         }
         .quiz-container .user-answer {
             background-color: #dc354550; /* Semi-transparent red */
             border-left-color: #dc3545;
             color: white;
+            margin: 10px auto;
         }
-
-    </style>
+</style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
