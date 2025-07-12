@@ -1,0 +1,41 @@
+<!-- ===== lab_simulations/templates/lab_simulations/clear_history_confirm.html ===== -->
+{% extends 'lab_simulations/base.html' %}
+
+{% block title %}Clear Quiz History - {{ simulation.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">⚠️ Confirm Clear History</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Are you sure you want to clear all quiz history for:</h6>
+                    <p class="fw-bold">{{ simulation.title }}</p>
+                    
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> This action will permanently delete:
+                        <ul class="mb-0 mt-2">
+                            <li>{{ simulation.get_attempt_count }} quiz attempts</li>
+                            <li>All score records</li>
+                            <li>All submitted answers</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-muted">This action cannot be undone.</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'simulation_history' simulation.pk %}" class="btn btn-secondary me-md-2">Cancel</a>
+                            <button type="submit" class="btn btn-danger">Yes, Clear History</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

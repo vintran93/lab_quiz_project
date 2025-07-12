@@ -1,0 +1,88 @@
+{% extends 'lab_simulations/base.html' %}
+
+{% block title %}Quiz History{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Quiz History 📚</h2>
+                <a href="{% url 'simulation_list' %}" class="btn btn-primary">Back to Simulations</a>
+            </div>
+
+            {% if quiz_attempts %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped text-white">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">Quiz Title</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Attempt Date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for attempt in quiz_attempts %}
+                        <tr>
+                            <td><a href="{% url 'simulation_detail' attempt.simulation.pk %}" class="text-decoration-none text-info">{{ attempt.simulation.title }}</a></td>
+                            <td>
+                                <span class="badge bg-{% if attempt.score >= 70 %}success{% elif attempt.score >= 50 %}warning{% else %}danger{% endif %} fs-6">
+                                    {{ attempt.score }}%
+                                </span>
+                            </td>
+                            <td>{{ attempt.attempt_date|date:"M d, Y H:i" }}</td>
+                            <td>
+                                <a href="{% url 'quiz_results' attempt.simulation.pk %}" class="btn btn-sm btn-outline-info">View Last Result</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if is_paginated %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        
+                        <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+                        
+                        {% if page_obj.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+
+            {% else %}
+            <div class="alert alert-info text-center" role="alert">
+                <h4 class="alert-heading">No Quiz Attempts Yet!</h4>
+                <p>It looks like you haven't taken any quizzes. Start by going to the <a href="{% url 'simulation_list' %}" class="alert-link">Simulations List</a> and taking a quiz!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Ensure table text is white for dark theme consistency */
+    .table-responsive .table {
+        color: var(--bs-white); /* Ensures text is white in Bootstrap 5 */
+    }
+    .table-responsive .table thead th {
+        color: var(--bs-white); /* Ensures header text is white */
+        background-color: var(--bs-primary); /* Primary blue for header */
+    }
+    .table-responsive .table tbody tr:hover {
+        background-color: #555; /* Slightly lighter dark on hover */
+    }
+    .table-responsive .table tbody tr td {
+        border-color: #666; /* Adjust border color for dark theme */
+    }
+</style>
+{% endblock %}

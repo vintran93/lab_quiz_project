@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import LabSimulation
+from .models import LabSimulation, QuizAttempt # Import QuizAttempt
 from .forms import LabSimulationForm, QuizForm
 
 class SimulationListView(ListView):
@@ -57,10 +57,24 @@ def submit_quiz(request, pk):
     if request.method == 'POST':
         form = QuizForm(request.POST, instance=simulation)
         if form.is_valid():
+            # Save the user's answers to the LabSimulation instance
             form.save()
-            messages.success(request, 'Quiz submitted successfully!')
+            
+            # Calculate the score
+            score = simulation.calculate_score()
+            
+            # Create a new QuizAttempt record
+            QuizAttempt.objects.create(
+                simulation=simulation,
+                score=score,
+                # If you have user authentication, uncomment the line below
+                # user=request.user 
+            )
+            
+            messages.success(request, 'Quiz submitted successfully! Your score has been recorded.')
             return redirect('quiz_results', pk=simulation.pk)
     
+    messages.error(request, 'Failed to submit quiz. Please try again.')
     return redirect('simulation_detail', pk=pk)
 
 def quiz_results(request, pk):
@@ -72,3 +86,15 @@ def quiz_results(request, pk):
         'score': score,
     }
     return render(request, 'lab_simulations/quiz_results.html', context)
+
+# NEW VIEW: To display quiz attempt history
+class QuizHistoryView(ListView):
+    model = QuizAttempt
+    template_name = 'lab_simulations/quiz_history.html'
+    context_object_name = 'quiz_attempts'
+    paginate_by = 10 # Optional: paginate history if it gets long
+
+    def get_queryset(self):
+        # You might want to filter by user if you implement user authentication
+        # return QuizAttempt.objects.filter(user=self.request.user).order_by('-attempt_date')
+        return QuizAttempt.objects.all().order_by('-attempt_date')

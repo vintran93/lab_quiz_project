@@ -4,6 +4,7 @@ from django.urls import reverse
 import re
 from difflib import SequenceMatcher
 from collections import Counter
+# import sys
 
 class LabSimulation(models.Model):
     title = models.CharField(max_length=200)
@@ -197,3 +198,18 @@ class LabSimulation(models.Model):
             })
         
         return comparisons
+
+# NEW MODEL: QuizAttempt to store quiz history
+class QuizAttempt(models.Model):
+    # Foreign Key to LabSimulation
+    simulation = models.ForeignKey(LabSimulation, on_delete=models.CASCADE, related_name='attempts')
+    score = models.DecimalField(max_digits=5, decimal_places=2) # e.g., 95.50
+    attempt_date = models.DateTimeField(auto_now_add=True)
+    # You could add a ForeignKey to User if you have user authentication
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quiz_attempts')
+
+    class Meta:
+        ordering = ['-attempt_date'] # Order by most recent attempts
+
+    def __str__(self):
+        return f"{self.simulation.title} - {self.score}% on {self.attempt_date.strftime('%Y-%m-%d %H:%M')}"
