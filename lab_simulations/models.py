@@ -22,7 +22,7 @@ def _clean_text_input(text):
     lines = text.split('\n')
     cleaned_lines = [line.strip() for line in lines]
     text = '\n'.join(cleaned_lines)
-    text = re.sub(r'[^\sa-z0-9\-_./]', '', text) 
+    text = re.sub(r'[^\sa-z0-9\-_./:]', '', text) 
     text = text.strip()
     return text
 
