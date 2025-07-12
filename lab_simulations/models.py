@@ -95,12 +95,15 @@ class LabSimulation(models.Model):
         for alias in self._SORTED_EQUIVALENCY_KEYS:
             canonical_form = self._COMMAND_EQUIVALENCIES[alias]
             text = re.sub(r'\b' + re.escape(alias) + r'\b', canonical_form, text)
-        text = re.sub(r'\s+', ' ', text).strip()
+        # Re-clean after alias substitution to handle potential new spaces/newlines introduced
+        text = _clean_text_input(text) 
+        # Remove common words and specific punctuation after command equivalencies
         text = re.sub(r'[.,;:!?"\'-]', '', text)
         common_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'}
         words = text.split()
         words = [word for word in words if word not in common_words]
         return ' '.join(words)
+
 
     def _normalize_text_for_highlighting(self, token):
         if not token:
@@ -111,7 +114,7 @@ class LabSimulation(models.Model):
     def _get_canonical_form(self, token_or_phrase):
         token_or_phrase_cleaned = _clean_text_input(token_or_phrase)
         if token_or_phrase_cleaned in self._COMMAND_EQUIVALENCIES:
-             return self._COMMAND_EQUIVALENCIES[token_or_phrase_cleaned]
+            return self._COMMAND_EQUIVALENCIES[token_or_phrase_cleaned]
         return token_or_phrase_cleaned
 
     def _is_synonym_for_highlighting(self, original_user_token_raw, lab_expected_original_token_raw):
@@ -164,77 +167,58 @@ class LabSimulation(models.Model):
             return 0.0
         norm_text1 = self.normalize_text(text1)
         norm_text2 = self.normalize_text(text2)
-        if norm_text1 == norm_text2:
-            return 1.0
+        if not norm_text1 and not norm_text2: # If both are empty after normalization
+            return 1.0 # Considered a perfect match if both are empty
+        if not norm_text1 or not norm_text2: # If one is empty and the other isn't
+            return 0.0
+            
         seq_similarity = SequenceMatcher(None, norm_text1, norm_text2).ratio()
-        terms1 = self.extract_key_terms(text1)
-        terms2 = self.extract_key_terms(text2)
-        if not terms1 and not terms2:
-            return seq_similarity
-        if not terms1 or not terms2:
-            term_similarity = 0.0
-        else:
-            intersection = len(terms1.intersection(terms2))
-            union = len(terms1.union(terms2))
-            term_similarity = intersection / union if union > 0 else 0.0
-        combined_similarity = (0.3 * seq_similarity) + (0.7 * term_similarity)
-        return combined_similarity
+        
+        # Consider using key terms for a combined similarity, or rely solely on sequence
+        # For "whole text area" comparison, SequenceMatcher is often sufficient after normalization.
+        
+        # You can uncomment and adjust the weighting if you still want term similarity to play a role
+        # terms1 = self.extract_key_terms(text1)
+        # terms2 = self.extract_key_terms(text2)
+        
+        # if not terms1 and not terms2:
+        #     return seq_similarity
+        # if not terms1 or not terms2:
+        #     term_similarity = 0.0
+        # else:
+        #     intersection = len(terms1.intersection(terms2))
+        #     union = len(terms1.union(terms2))
+        #     term_similarity = intersection / union if union > 0 else 0.0
+            
+        # combined_similarity = (0.7 * seq_similarity) + (0.3 * term_similarity) # Example weighting
+        # return combined_similarity
+
+        return seq_similarity # Returning only SequenceMatcher ratio for whole text comparison
 
     def calculate_score(self):
         if not self.user_answers or not self.lab_answers:
             return 0
-        lab_lines = [_clean_text_input(line) for line in self.lab_answers.split('\n') if _clean_text_input(line)]
-        user_lines = [_clean_text_input(line) for line in self.user_answers.split('\n') if _clean_text_input(line)]
-        if not lab_lines:
-            return 0
-        total_score = 0
-        total_questions = len(lab_lines)
-        matched_user_indices = set() 
 
-        for i, lab_answer in enumerate(lab_lines):
-            question_score = 0
-            current_line_match_score = 0
-            direct_match_idx = -1 
+        # Calculate similarity for the entire text blocks
+        # The normalize_text method handles cleaning and command equivalencies.
+        normalized_lab_answers = self.normalize_text(self.lab_answers)
+        normalized_user_answers = self.normalize_text(self.user_answers)
 
-            if i < len(user_lines):
-                user_answer = user_lines[i]
-                current_line_match_score = self.calculate_similarity(lab_answer, user_answer)
-                if current_line_match_score >= 0.8:
-                    question_score = 1.0
-                    matched_user_indices.add(i)
-                    direct_match_idx = i
-            
-            if question_score < 1.0:
-                best_overall_match_score = current_line_match_score
-                best_overall_match_idx = direct_match_idx
+        # If after normalization, both are empty, consider it a perfect match (e.g., if lab answer is just whitespace)
+        if not normalized_lab_answers and not normalized_user_answers:
+            return 100.0
 
-                for j, user_line_candidate in enumerate(user_lines):
-                    if j not in matched_user_indices or j == direct_match_idx: 
-                        similarity_candidate = self.calculate_similarity(lab_answer, user_line_candidate)
-                        if similarity_candidate > best_overall_match_score:
-                            best_overall_match_score = similarity_candidate
-                            best_overall_match_idx = j
-                
-                if best_overall_match_score >= 0.9:
-                    question_score = 0.9 
-                elif best_overall_match_score >= 0.8:
-                    question_score = 0.8
-                elif best_overall_match_score >= 0.6:
-                    question_score = 0.6
-                elif best_overall_match_score >= 0.4:
-                    question_score = 0.3
-                elif best_overall_match_score >= 0.2:
-                    question_score = 0.1
-                else:
-                    question_score = 0
+        # If one is empty after normalization but the other isn't, it's 0% match
+        if not normalized_lab_answers or not normalized_user_answers:
+            return 0.0
 
-                if question_score >= 0.8 and best_overall_match_idx != -1:
-                    matched_user_indices.add(best_overall_match_idx)
-
-            total_score += question_score
+        # Use SequenceMatcher for a direct string comparison similarity
+        # This will give a ratio between 0.0 and 1.0
+        similarity_ratio = SequenceMatcher(None, normalized_lab_answers, normalized_user_answers).ratio()
         
-        final_score = (total_score / total_questions) * 100
-        return round(final_score, 2)
+        # Convert to percentage
+        score = similarity_ratio * 100
+        return round(score, 2)
 
     def get_attempt_count(self):
         return self.attempts.count()
@@ -244,6 +228,8 @@ class LabSimulation(models.Model):
             return ""
         
         if not self.lab_answers:
+            # If there are no lab answers, all user answers are effectively 'incorrect' in context
+            # or should be displayed as-is without comparison
             return html.escape(self.user_answers)
 
         user_tokens_raw = _tokenize_with_delimiters(self.user_answers, self._COMMAND_EQUIVALENCIES.keys()) 
@@ -251,36 +237,68 @@ class LabSimulation(models.Model):
 
         highlighted_output = []
         
-        # Process each user token
-        for i, user_token in enumerate(user_tokens_raw):
-            cleaned_user_token = _clean_text_input(user_token)
+        # Create a custom SequenceMatcher that considers equivalent tokens as equal
+        def tokens_equal(user_token, lab_token):
+            return self._tokens_are_equivalent(user_token, lab_token)
+        
+        # Build alignment manually by comparing tokens
+        user_idx = 0
+        lab_idx = 0
+        
+        while user_idx < len(user_tokens_raw) and lab_idx < len(lab_tokens_raw):
+            user_token = user_tokens_raw[user_idx]
+            lab_token = lab_tokens_raw[lab_idx]
             
-            # If it's not a word-like token (whitespace, punctuation), don't highlight
-            if not cleaned_user_token or not re.search(r'\w', cleaned_user_token):
+            # Only process word-like tokens for highlighting logic
+            if not re.search(r'\w', _clean_text_input(user_token)):
                 highlighted_output.append(html.escape(user_token))
+                user_idx += 1
+                continue
+                
+            if not re.search(r'\w', _clean_text_input(lab_token)):
+                lab_idx += 1
                 continue
             
-            # Check if there's a corresponding lab token at this position
-            if i < len(lab_tokens_raw):
-                lab_token = lab_tokens_raw[i]
-                cleaned_lab_token = _clean_text_input(lab_token)
-                
-                # Check if the tokens are equivalent
-                if self._tokens_are_equivalent(user_token, lab_token):
-                    # They're equivalent - check if user typed a synonym
-                    if self._is_synonym_for_highlighting(user_token, lab_token):
-                        # User typed a synonym, highlight green
-                        highlighted_output.append(f'<span class="correct-synonym-highlight">{html.escape(user_token)}</span>')
-                    else:
-                        # User typed the canonical form or exact match, don't highlight
-                        highlighted_output.append(html.escape(user_token))
+            # Check if tokens are equivalent
+            if self._tokens_are_equivalent(user_token, lab_token):
+                # Tokens are equivalent - check if it's a synonym
+                if self._is_synonym_for_highlighting(user_token, lab_token):
+                    # User used a synonym - highlight green
+                    highlighted_output.append(f'<span class="correct-synonym-highlight">{html.escape(user_token)}</span>')
                 else:
-                    # Tokens are not equivalent, highlight red
-                    highlighted_output.append(f'<span class="incorrect-highlight">{html.escape(user_token)}</span>')
+                    # Exact match or same canonical form - no highlighting
+                    highlighted_output.append(html.escape(user_token))
+                user_idx += 1
+                lab_idx += 1
             else:
-                # No corresponding lab token (user has extra tokens), highlight red
+                # Tokens are not equivalent - highlight red (incorrect)
                 highlighted_output.append(f'<span class="incorrect-highlight">{html.escape(user_token)}</span>')
+                user_idx += 1
+                
+                # Try to find the next matching token in lab_tokens
+                found_match = False
+                for look_ahead in range(lab_idx + 1, min(lab_idx + 5, len(lab_tokens_raw))):
+                    if self._tokens_are_equivalent(user_token, lab_tokens_raw[look_ahead]):
+                        lab_idx = look_ahead
+                        found_match = True
+                        break
+                
+                if not found_match:
+                    # Skip ahead in lab tokens to try to find alignment
+                    next_lab_idx = lab_idx + 1
+                    while next_lab_idx < len(lab_tokens_raw) and not re.search(r'\w', _clean_text_input(lab_tokens_raw[next_lab_idx])):
+                        next_lab_idx += 1
+                    lab_idx = next_lab_idx
         
+        # Handle remaining user tokens (extras)
+        while user_idx < len(user_tokens_raw):
+            user_token = user_tokens_raw[user_idx]
+            if re.search(r'\w', _clean_text_input(user_token)):
+                highlighted_output.append(f'<span class="incorrect-highlight">{html.escape(user_token)}</span>')
+            else:
+                highlighted_output.append(html.escape(user_token))
+            user_idx += 1
+
         return "".join(highlighted_output)
 
 
