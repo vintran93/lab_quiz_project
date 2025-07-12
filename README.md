@@ -1,6 +1,6 @@
 Networking Lab Simulator App
 
-A lab simulations app that allows users to practice configuring routers and switches that mimics a networking environment. 
+A lab simulations app that allows users to create quizzes for configuring routers and switches that mimics a networking environment. 
 
 <img width="975" height="494" alt="image" src="https://github.com/user-attachments/assets/8384073b-ce92-4187-897d-6f8ac6d0a5bb" />
 
