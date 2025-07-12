@@ -3,6 +3,7 @@
 {% block title %}Quiz History{% endblock %}
 
 {% block content %}
+{% csrf_token %}
 <div class="quiz-container">
     <div class="row">
         <div class="col-md-12">
@@ -33,7 +34,17 @@
                             </td>
                             <td>{{ attempt.attempt_date|date:"M d, Y H:i" }}</td>
                             <td>
-                                <a href="{% url 'quiz_results' attempt.simulation.pk %}" class="btn btn-sm btn-outline-info">View Last Result</a>
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'quiz_results' attempt.simulation.pk %}" class="btn btn-sm btn-outline-info">Go to quiz</a>
+                                    <form method="post" action="{% url 'delete_quiz_attempt' attempt.pk %}" class="d-inline" 
+                                          onsubmit="return confirm('Are you sure you want to delete this quiz attempt for {{ attempt.simulation.title|escapejs }}? This action cannot be undone.')">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger" 
+                                                title="Delete this quiz attempt">
+                                            <i class="fas fa-trash-alt"></i> Delete Attempt
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
@@ -84,5 +95,17 @@
     .table-responsive .table tbody tr td {
         border-color: #666; /* Adjust border color for dark theme */
     }
+    
+    /* Button group styling */
+    .btn-group .btn {
+        margin-right: 0;
+    }
+    
+    /* Delete button hover effect */
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
 </style>
+
 {% endblock %}

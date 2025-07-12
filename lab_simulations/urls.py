@@ -10,5 +10,7 @@ urlpatterns = [
     path('simulation/<int:pk>/delete/', views.SimulationDeleteView.as_view(), name='simulation_delete'),
     path('simulation/<int:pk>/submit/', views.submit_quiz, name='submit_quiz'),
     path('simulation/<int:pk>/results/', views.quiz_results, name='quiz_results'),
-    path('quiz_history/', views.QuizHistoryView.as_view(), name='quiz_history'), # NEW URL
+    path('quiz_history/', views.QuizHistoryView.as_view(), name='quiz_history'),
+    path('simulation/<int:pk>/clear_history/', views.clear_quiz_history, name='clear_quiz_history'),
+    path('quiz-history/delete/<int:attempt_id>/', views.delete_quiz_attempt, name='delete_quiz_attempt'),
 ]

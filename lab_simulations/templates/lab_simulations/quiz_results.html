@@ -1,4 +1,3 @@
-<!-- ===== lab_simulations/templates/lab_simulations/quiz_results.html ===== -->
 {% extends 'lab_simulations/base.html' %}
 
 {% block title %}Quiz Results - {{ simulation.title }}{% endblock %}
@@ -16,7 +15,6 @@
                 </div>
             </div>
 
-            <!-- Score Summary -->
             <div class="alert alert-{% if score >= 70 %}success{% elif score >= 50 %}warning{% else %}danger{% endif %}" role="alert">
                 <h4 class="alert-heading">
                     {% if score >= 70 %}
@@ -30,7 +28,6 @@
                 <p>You scored {{ score }}% on this lab simulation quiz.</p>
             </div>
 
-            <!-- Network Topology Reference -->
             {% if simulation.image %}
                 <div class="section-header">
                     <h4>Network Topology Reference</h4>
@@ -40,7 +37,6 @@
                 </div>
             {% endif %}
 
-            <!-- Answer Comparison -->
             <div class="section-header">
                 <h4>Answer Comparison</h4>
             </div>
@@ -49,27 +45,29 @@
                 <div class="col-md-6">
                     <div class="answer-comparison correct-answer">
                         <h5>Correct Lab Answers</h5>
-                        <div>{{ simulation.lab_answers|linebreaks }}</div>
+                        <div>{{ simulation.lab_answers|linebreaksbr }}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="answer-comparison user-answer">
                         <h5>Your Answers</h5>
-                        <div>{{ simulation.user_answers|linebreaks }}</div>
+                        {# Use 'safe' filter to render HTML tags from highlighted_user_answers_html #}
+                        {# Use 'linebreaksbr' to convert newlines in the original content to <br> tags #}
+                        <div>{{ highlighted_user_answers_html|safe|linebreaksbr }}</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Actions -->
             <div class="mt-4">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                     <a href="{% url 'simulation_detail' simulation.pk %}" class="btn btn-primary me-md-2">Retake Quiz</a>
                     <a href="{% url 'simulation_list' %}" class="btn btn-secondary me-md-2">Back to List</a>
+                    <a href="{% url 'quiz_history' %}" class="btn btn-info me-md-2">View Full History</a>
+                    <a href="{% url 'clear_quiz_history' simulation.pk %}" class="btn btn-danger">Clear This Quiz History</a>
                     <a href="{% url 'simulation_update' simulation.pk %}" class="btn btn-warning">Edit Simulation</a>
                 </div>
             </div>
 
-            <!-- Study Tips -->
             {% if score < 70 %}
                 <div class="mt-4">
                     <div class="alert alert-info" role="alert">
@@ -86,4 +84,70 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* Styles for genuinely incorrect answers (red highlight) */
+    .incorrect-highlight {
+        background-color: #ffcccc; /* Light red background */
+        color: #b30000; /* Darker red text */
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-weight: bold;
+    }
+
+    /* Styles for correctly identified synonyms (green highlight) */
+    .correct-synonym-highlight {
+        background-color: #ccffcc; /* Light green background */
+        color: #008000; /* Darker green text */
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-weight: bold;
+    }
+
+    /* Styling for answer comparison boxes */
+    .answer-comparison {
+        background-color: #333; /* Darker background for content */
+        border: 1px solid #555;
+        border-radius: 5px;
+        padding: 15px;
+        min-height: 150px; /* Ensure consistent height */
+        display: flex;
+        flex-direction: column;
+        color: white; /* Ensure text is readable */
+        white-space: pre-wrap; /* Preserve whitespace and line breaks within the div */
+    }
+
+    .answer-comparison h5 {
+        color: #bbb; /* Slightly lighter heading color */
+        margin-bottom: 10px;
+        border-bottom: 1px solid #666;
+        padding-bottom: 5px;
+    }
+
+    /* Style for the overall quiz container */
+    .quiz-container {
+        background-color: #222; /* Dark background for the whole container */
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        color: white; /* Default text color */
+    }
+
+    /* Section headers */
+    .section-header h4 {
+        color: #007bff; /* Primary color for headers */
+        margin-top: 25px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+    }
+
+    /* Responsive image */
+    .network-topology-img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+</style>
 {% endblock %}

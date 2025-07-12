@@ -3,8 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import LabSimulation, QuizAttempt # Import QuizAttempt
+from .models import LabSimulation, QuizAttempt
 from .forms import LabSimulationForm, QuizForm
+
 
 class SimulationListView(ListView):
     model = LabSimulation
@@ -57,18 +58,13 @@ def submit_quiz(request, pk):
     if request.method == 'POST':
         form = QuizForm(request.POST, instance=simulation)
         if form.is_valid():
-            # Save the user's answers to the LabSimulation instance
             form.save()
             
-            # Calculate the score
             score = simulation.calculate_score()
             
-            # Create a new QuizAttempt record
             QuizAttempt.objects.create(
                 simulation=simulation,
                 score=score,
-                # If you have user authentication, uncomment the line below
-                # user=request.user 
             )
             
             messages.success(request, 'Quiz submitted successfully! Your score has been recorded.')
@@ -81,20 +77,56 @@ def quiz_results(request, pk):
     simulation = get_object_or_404(LabSimulation, pk=pk)
     score = simulation.calculate_score()
     
+    # NEW: Get the HTML with highlighted user answers
+    highlighted_user_answers_html = simulation.get_highlighted_user_answers_as_html()
+
     context = {
         'simulation': simulation,
         'score': score,
+        'highlighted_user_answers_html': highlighted_user_answers_html, # Pass this to the template
     }
     return render(request, 'lab_simulations/quiz_results.html', context)
 
-# NEW VIEW: To display quiz attempt history
 class QuizHistoryView(ListView):
     model = QuizAttempt
     template_name = 'lab_simulations/quiz_history.html'
     context_object_name = 'quiz_attempts'
-    paginate_by = 10 # Optional: paginate history if it gets long
+    paginate_by = 10 
 
     def get_queryset(self):
-        # You might want to filter by user if you implement user authentication
-        # return QuizAttempt.objects.filter(user=self.request.user).order_by('-attempt_date')
         return QuizAttempt.objects.all().order_by('-attempt_date')
+
+def clear_quiz_history(request, pk):
+    simulation = get_object_or_404(LabSimulation, pk=pk)
+    
+    if request.method == 'POST':
+        count, _ = simulation.attempts.all().delete()
+        messages.success(request, f'{count} quiz attempts for "{simulation.title}" cleared successfully.')
+        return redirect('quiz_history')
+    
+    context = {
+        'simulation': simulation,
+    }
+    return render(request, 'lab_simulations/clear_history_confirm.html', context)
+
+def delete_quiz_attempt(request, attempt_id):
+    if request.method == 'POST':
+        try:
+            # For debugging - let's see what's happening
+            print(f"User authenticated: {request.user.is_authenticated}")
+            print(f"User: {request.user}")
+            print(f"Attempt ID: {attempt_id}")
+            
+            # Get the quiz attempt - temporarily remove user check
+            attempt = get_object_or_404(QuizAttempt, pk=attempt_id)
+            quiz_title = attempt.simulation.title
+            attempt.delete()
+            
+            # Single success message
+            messages.success(request, f'Quiz attempt for "{quiz_title}" deleted successfully.')
+            
+        except Exception as e:
+            messages.error(request, f'Error deleting quiz attempt: {str(e)}')
+            print(f"Error: {e}")
+    
+    return redirect('quiz_history')
